@@ -213,5 +213,5 @@ export function updateDayNight(dt, scene) {
   const hours = Math.floor(dayTime * 24);
   const mins = Math.floor((dayTime * 24 - hours) * 60);
   const el = document.getElementById('time-display');
-  if (el) el.textContent = `${padTime(hours)}:${padTime(mins)} ${sunH > 0 ? 'DAY' : 'NIGHT'}`;
+  if (el) el.textContent = `${padTime(hours)}:${padTime(mins)} ${sunH > 0 ? '낮' : '밤'}`;
 }
