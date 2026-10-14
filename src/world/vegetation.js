@@ -838,7 +838,7 @@ export function updateRockHint() {
     return;
   }
 
-  el.textContent = '[E] Pick up';
+  el.textContent = '[E] 줍기';
   el.style.fontSize = '21px';
   el.style.left = projected.x + 'px';
   el.style.top = projected.y + 'px';
