@@ -67,7 +67,7 @@ export function updateInventory() {
 export function updateCameraMode() {
   const state = getPlayerState();
   const el = document.getElementById('camera-mode');
-  if (el) el.textContent = state.firstPerson ? '1ST PERSON' : '3RD PERSON';
+  if (el) el.textContent = state.firstPerson ? '1인칭' : '3인칭';
 }
 
 let _mapBase = null;   // offscreen canvas: grid + water + buildings (static)
