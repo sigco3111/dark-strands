@@ -156,7 +156,7 @@ export function initTouch() {
           lpOriginY = t.clientY;
           lpStart = performance.now();
           lpActive = true;
-          // Extract action word from hint text (strip "Hold to " prefix)
+          // Extract action word from hint text (strip "길게 눌러 " prefix)
           const raw = hintEl.textContent || '';
           const label = raw.replace(/^Hold to /, '');
           showProgress(label);
@@ -258,8 +258,8 @@ export function initTouch() {
     // Mobile-friendly text
     const pt = document.getElementById('pause-text');
     const ph = document.getElementById('pause-hint');
-    if (pt) pt.textContent = 'Tap to Resume';
-    if (ph) ph.textContent = 'Tap anywhere to resume';
+    if (pt) pt.textContent = '터치하여 계속';
+    if (ph) ph.textContent = '아무 곳이나 터치하여 계속';
   });
 
   // Help button — toggle help overlay
