@@ -98,7 +98,7 @@ async function build() {
   fs.writeFileSync(`dist/${jsFile}`, jsContent);
 
   // Generate production index.html with hashed references
-  const srcHtml = fs.readFileSync('index.html', 'utf8');
+  const srcHtml = fs.readFileSync(fs.existsSync('index.source.html') ? 'index.source.html' : 'index.html', 'utf8');
   const bodyMatch = srcHtml.match(/<body>([\s\S]*?)<script type="importmap">/);
   const bodyContent = bodyMatch ? bodyMatch[1].trim() : '';
 
@@ -130,8 +130,9 @@ async function build() {
   fs.writeFileSync(`dist/lib/${hkFile}`, hkContent);
 
   const html = `<!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dark Strands</title>
