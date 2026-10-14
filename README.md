@@ -45,6 +45,8 @@ npm run build
 npm run dev
 ```
 
+Pages 단일 HTML 재빌드: `node build-pages.cjs` 실행 후 생성된 `ko.html`을 루트 배포 HTML로 사용하세요. 현재 launcher는 `6-ko.html`을 엽니다.
+
 원본 빌드 스크립트와 개발용 import map을 보존합니다. 한국어 소스가 반영된 후 빌드할 수 있습니다. 배포 루트의 launcher HTML과 개발용 HTML은 다르므로 `index.source.html`을 `index.html`로 복사한 뒤 개발·재빌드하세요.
 
 ## 원작·권리·성능
