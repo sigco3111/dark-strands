@@ -537,7 +537,7 @@ export function updateDoorHint() {
     return;
   }
 
-  el.textContent = door.open ? '[E] Close' : '[E] Open';
+  el.textContent = door.open ? '[E] 닫기' : '[E] 열기';
   el.style.fontSize = '';
   el.style.left = projected.x + 'px';
   el.style.top = projected.y + 'px';
