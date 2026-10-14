@@ -62,8 +62,8 @@ function updateLabel() {
         const curr = getDayTime();
         const wake = (curr + (hs / 24)) % 1;
 
-        header.textContent = `Current Time: ${formatTime(curr)}`;
-        lbl.textContent = `Sleep for ${hs} hour${hs > 1 ? 's' : ''} (Awake at ${formatTime(wake)})`;
+        header.textContent = `현재 시간: ${formatTime(curr)}`;
+        lbl.textContent = `${hs}시간 잠자기 (${formatTime(wake)}에 기상)`;
     }
 }
 
