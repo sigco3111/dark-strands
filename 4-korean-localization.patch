@@ -1,0 +1,813 @@
+diff --git a/index.html b/index.html
+index 9cd0a4d..d25b6bf 100644
+--- a/index.html
++++ b/index.html
+@@ -1,67 +1,67 @@
+ <!DOCTYPE html>
+-<html lang="en">
++<html lang="ko">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Dark Strands - Prototype</title>
+ <link rel="stylesheet" href="styles.css">
+-</head>
++<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"><style>body,button,input{font-family:"Noto Sans KR","Malgun Gothic",sans-serif!important}#menu-keys{min-width:220px}</style></head>
+ <body>
+ 
+ <div id="loading">
+-  <div>Loading assets...</div>
++  <div>자산 불러오는 중...</div>
+   <div id="load-bar"><div id="load-fill"></div></div>
+ </div>
+ 
+ <div id="blocker">
+   <div id="menu-panel">
+     <h1 id="menu-title"><span>DARK</span><span>STRANDS</span></h1>
+-    <p id="menu-subtitle">Survival Roguelite</p>
++    <p id="menu-subtitle">3D 탐험 샌드박스</p>
+ 
+     <label id="daynight-toggle">
+       <input type="checkbox" id="daynight-checkbox">
+-      <span>Day/Night Cycle</span>
++      <span>낮과 밤 주기</span>
+     </label>
+ 
+     <label id="snow-toggle">
+       <input type="checkbox" id="snow-checkbox">
+-      <span>Snow Biome</span>
++      <span>설원 환경</span>
+     </label>
+ 
+     <div id="gfx-toggles">
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-sky" checked><span>Sky &amp; Clouds</span></label>
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-fog" checked><span>Volumetric Fog</span></label>
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-rays" checked><span>God Rays</span></label>
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-weather" checked><span>Weather</span></label>
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-water" checked><span>Water Reflections</span></label>
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-glow" checked><span>Torch Glow</span></label>
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-pipeline" checked><span>Post FX (FXAA)</span></label>
+-      <label class="gfx-toggle"><input type="checkbox" id="gfx-bloom" checked><span>Bloom</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-sky" checked><span>하늘과 구름</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-fog" checked><span>입체 안개</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-rays" checked><span>빛내림</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-weather" checked><span>날씨</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-water" checked><span>수면 반사</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-glow" checked><span>횃불 광채</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-pipeline" checked><span>후처리 (FXAA)</span></label>
++      <label class="gfx-toggle"><input type="checkbox" id="gfx-bloom" checked><span>빛 번짐</span></label>
+     </div>
+ 
+-    <button id="menu-play">Enter World</button>
++    <button id="menu-play">월드 입장</button>
+   </div>
+ 
+   <div id="menu-keys">
+-    <div class="control-item"><span class="key">WASD</span> Move</div>
+-    <div class="control-item"><span class="key">SHIFT</span> Sprint</div>
+-    <div class="control-item"><span class="key">SPACE</span> Jump</div>
+-    <div class="control-item"><span class="key">V</span> Camera</div>
+-    <div class="control-item"><span class="key">E</span> Interact</div>
+-    <div class="control-item"><span class="key">TAB / PAUSE</span> Pause</div>
+-    <div class="control-item"><span class="key">RMB</span> Zoom</div>
+-    <div class="control-item"><span class="key">Q</span> Fast-forward</div>
+-    <div class="control-item"><span class="key">SHIFT+?</span> Help</div>
++    <div class="control-item"><span class="key">WASD</span> 이동</div>
++    <div class="control-item"><span class="key">SHIFT</span> 달리기</div>
++    <div class="control-item"><span class="key">SPACE</span> 점프</div>
++    <div class="control-item"><span class="key">V</span> 카메라</div>
++    <div class="control-item"><span class="key">E</span> 상호작용</div>
++    <div class="control-item"><span class="key">TAB / PAUSE</span> 일시 정지</div>
++    <div class="control-item"><span class="key">RMB</span> 확대</div>
++    <div class="control-item"><span class="key">Q</span> 빠르게</div>
++    <div class="control-item"><span class="key">SHIFT+?</span> 도움말</div>
+   </div>
+ 
+   <div id="menu-pause" style="display:none">
+-    <p id="pause-text">Click to Resume</p>
+-    <p id="pause-hint">Click or press any key to resume</p>
++    <p id="pause-text">클릭하여 계속</p>
++    <p id="pause-hint">클릭하거나 키를 눌러 계속하세요</p>
+   </div>
+ </div>
+ 
+ <div id="menu-loading" style="display:none">
+-  <div id="menu-load-text">Preparing world...</div>
++  <div id="menu-load-text">월드 준비 중...</div>
+   <div id="menu-load-bar"><div id="menu-load-fill"></div></div>
+ </div>
+ 
+@@ -76,7 +76,7 @@
+ 
+ <div id="interact-hint" style="display:none"></div>
+ <div id="npc-speech" style="display:none"></div>
+-<div id="hud-bottom">WASD move | SHIFT sprint | SPACE jump | V camera | E interact | RMB zoom | Q fast-forward | TAB/PAUSE pause | ESC free cursor | SHIFT+? help</div>
++<div id="hud-bottom">WASD 이동 | SHIFT 달리기 | SPACE 점프 | V 시점 | E 상호작용 | RMB 확대 | Q 빠르게 | TAB/PAUSE 정지 | ESC 커서 해제 | SHIFT+? 도움말</div>
+ 
+ <div id="hotbar">
+   <div class="hotbar-slot" data-slot="0"></div>
+@@ -93,72 +93,72 @@
+ <div id="help-overlay" style="display:none">
+   <div id="help-panel">
+     <div id="help-header">
+-      <h2 id="help-title">SURVIVAL GUIDE</h2>
++      <h2 id="help-title">탐험 안내</h2>
+       <div id="help-tabs">
+-        <button class="help-tab active" data-tab="controls">Controls</button>
+-        <button class="help-tab help-mobile" data-tab="touch">Touch</button>
+-        <button class="help-tab" data-tab="world">World</button>
++        <button class="help-tab active" data-tab="controls">조작</button>
++        <button class="help-tab help-mobile" data-tab="touch">터치</button>
++        <button class="help-tab" data-tab="world">월드</button>
+       </div>
+-      <span id="help-close" class="help-desktop">SHIFT+? to close</span>
++      <span id="help-close" class="help-desktop">SHIFT+?로 닫기</span>
+       <button id="help-close-mobile" class="help-mobile" aria-label="Close">&#x2715;</button>
+     </div>
+ 
+     <!-- Tab: Controls (desktop keyboard/mouse) -->
+     <div class="help-tab-content active" data-tab="controls">
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x2694;</span> Movement</div>
++        <div class="help-section-title"><span class="help-icon">&#x2694;</span> 이동</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Walk &amp; Sprint</div>
+-            <div class="help-card-body">Use <b>WASD</b> to move freely. Hold <b>SHIFT</b> to sprint at double speed.</div>
++            <div class="help-card-head">걷기와 달리기</div>
++            <div class="help-card-body">WASD로 이동합니다. SHIFT를 누르면 두 배 속도로 달립니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Jump &amp; Double Jump</div>
+-            <div class="help-card-body">Press <b>SPACE</b> to jump. Press again mid-air for a double jump. You can also jump briefly after walking off a ledge.</div>
++            <div class="help-card-head">점프와 이단 점프</div>
++            <div class="help-card-body">SPACE로 점프합니다. 공중에서 다시 누르면 이단 점프합니다. 발판에서 떨어진 직후에도 잠깐 점프할 수 있습니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Zoom</div>
+-            <div class="help-card-body">Hold <b>Right-click</b> for 3x zoom. Scout distant threats and landmarks before approaching.</div>
++            <div class="help-card-head">확대</div>
++            <div class="help-card-body">마우스 오른쪽 버튼을 누르면 3배 확대됩니다. 멀리 있는 지형과 물체를 살펴보세요.</div>
+           </div>
+         </div>
+       </div>
+ 
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x1F4AC;</span> Interaction</div>
++        <div class="help-section-title"><span class="help-icon">&#x1F4AC;</span> 상호작용</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Interact</div>
+-            <div class="help-card-body">Press <b>E</b> near doors, soldiers, flowers, rocks, torches, or beds. Watch for the <b>[E]</b> prompt floating in the world.</div>
++            <div class="help-card-head">상호작용</div>
++            <div class="help-card-body">문, 병사, 꽃, 돌, 횃불, 침대 가까이에서 E를 누릅니다. 월드에 뜨는 [E] 안내를 확인하세요.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Throw &amp; Place</div>
+-            <div class="help-card-body">Select a stone and <b>left-click</b> to throw. Press <b>E</b> with a stone selected to enter placement mode -- a green preview shows where it will land. Click to place.</div>
++            <div class="help-card-head">던지기와 배치</div>
++            <div class="help-card-body">돌을 선택하고 왼쪽 클릭하면 던집니다. E를 누르면 배치 모드로 전환됩니다. 초록색 미리보기를 보고 클릭하여 놓으세요.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Flowers &amp; Torches</div>
+-            <div class="help-card-body">Pick up flowers and torches with <b>E</b>. Select and <b>left-click</b> to place them -- flowers go on terrain, torches on walls or ground.</div>
++            <div class="help-card-head">꽃과 횃불</div>
++            <div class="help-card-body">E로 꽃과 횃불을 줍습니다. 선택 후 왼쪽 클릭으로 배치합니다. 꽃은 지면에, 횃불은 벽이나 바닥에 놓습니다.</div>
+           </div>
+         </div>
+       </div>
+ 
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x1F3AF;</span> Camera &amp; HUD</div>
++        <div class="help-section-title"><span class="help-icon">&#x1F3AF;</span> 카메라와 HUD</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Camera</div>
+-            <div class="help-card-body">Press <b>V</b> to switch between first-person and over-the-shoulder third-person view.</div>
++            <div class="help-card-head">카메라</div>
++            <div class="help-card-body">V로 1인칭과 어깨 너머 3인칭 시점을 전환합니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Hotbar</div>
+-            <div class="help-card-body">Press <b>1-5</b> to select slots. Hold <b>ALT</b> for a virtual cursor -- drag items between slots to reorder.</div>
++            <div class="help-card-head">빠른 도구창</div>
++            <div class="help-card-body">1~5로 슬롯을 선택합니다. ALT를 누르면 가상 커서가 나타납니다. 아이템을 드래그하여 슬롯 순서를 바꿉니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Pause</div>
+-            <div class="help-card-body"><b>TAB</b> pauses with mouse trapped. <b>ESC</b> frees cursor (game keeps running). Click to re-lock.</div>
++            <div class="help-card-head">일시 정지</div>
++            <div class="help-card-body">TAB은 커서를 잠근 채 일시 정지합니다. ESC는 게임을 계속하며 커서를 해제합니다. 클릭하면 다시 잠급니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Fast-Forward</div>
+-            <div class="help-card-body">Hold <b>Q</b> to run the world at 3x speed -- time, movement, and animations all accelerate.</div>
++            <div class="help-card-head">빠르게 진행</div>
++            <div class="help-card-body">Q를 누르면 월드가 3배 속도로 진행됩니다. 시간, 이동, 애니메이션이 모두 빨라집니다.</div>
+           </div>
+         </div>
+       </div>
+@@ -167,31 +167,31 @@
+     <!-- Tab: Touch (mobile only) -->
+     <div class="help-tab-content" data-tab="touch">
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x2694;</span> Touch Controls</div>
++        <div class="help-section-title"><span class="help-icon">&#x2694;</span> 터치 조작</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Move</div>
+-            <div class="help-card-body">Touch and drag the <b>left side</b> of the screen. A virtual joystick appears where you touch.</div>
++            <div class="help-card-head">이동</div>
++            <div class="help-card-body">화면 왼쪽을 터치하고 드래그하세요. 터치한 곳에 가상 조이스틱이 나타납니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Look Around</div>
+-            <div class="help-card-body">Swipe the <b>right side</b> of the screen to rotate the camera. Use both thumbs -- left to move, right to look.</div>
++            <div class="help-card-head">둘러보기</div>
++            <div class="help-card-body">화면 오른쪽을 쓸어 카메라를 돌립니다. 왼손으로 이동하고 오른손으로 시점을 조절하세요.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Jump</div>
+-            <div class="help-card-body">Tap the <b>JUMP</b> button (bottom-right). Tap again mid-air for a double jump.</div>
++            <div class="help-card-head">점프</div>
++            <div class="help-card-body">오른쪽 아래 점프 버튼을 누릅니다. 공중에서 다시 누르면 이단 점프합니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Interact</div>
+-            <div class="help-card-body"><b>Hold still</b> on the right side for 1 second near doors, soldiers, flowers, rocks, torches, or beds. A progress circle fills to confirm.</div>
++            <div class="help-card-head">상호작용</div>
++            <div class="help-card-body">상호작용할 물체 가까이에서 화면 오른쪽을 1초 동안 움직이지 않고 누릅니다. 원형 진행 표시가 채워지면 실행됩니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Use Item</div>
+-            <div class="help-card-body">Tap the <b>USE</b> button to throw stones, enter placement mode, or place torches/flowers.</div>
++            <div class="help-card-head">아이템 사용</div>
++            <div class="help-card-body">사용 버튼을 눌러 돌 던지기, 배치 모드, 횃불과 꽃 배치를 실행합니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Hotbar &amp; Camera</div>
+-            <div class="help-card-body">Tap a <b>hotbar slot</b> to select it. Tap <b>CAM</b> to switch between first and third person.</div>
++            <div class="help-card-head">도구창과 카메라</div>
++            <div class="help-card-body">도구창 슬롯을 눌러 선택합니다. 시점 버튼으로 1인칭과 3인칭을 전환합니다.</div>
+           </div>
+         </div>
+       </div>
+@@ -200,73 +200,73 @@
+     <!-- Tab: World (shared by desktop and mobile) -->
+     <div class="help-tab-content" data-tab="world">
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x1F3E0;</span> Exploration</div>
++        <div class="help-section-title"><span class="help-icon">&#x1F3E0;</span> 탐험</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Buildings</div>
+-            <div class="help-card-body">Stone structures with doorways, breakable windows, and furniture. Some rise two stories with staircases, tables, chairs, and beds.</div>
++            <div class="help-card-head">건물</div>
++            <div class="help-card-body">돌 건물에는 문, 깨지는 창문, 가구가 있습니다. 일부 건물은 계단과 탁자, 의자, 침대가 있는 2층입니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Rooftops</div>
+-            <div class="help-card-body">Climb onto rooftops if you can find a way up. Slanted roofs are slippery -- thrown stones will roll off. Flat roofs make good vantage points.</div>
++            <div class="help-card-head">지붕</div>
++            <div class="help-card-body">올라갈 길을 찾아 지붕에 올라보세요. 경사진 지붕은 미끄러워 돌이 굴러떨어집니다. 평평한 지붕은 좋은 전망대입니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Terrain &amp; Water</div>
+-            <div class="help-card-body">Rolling hills shape the landscape. Walk into water for an underwater view -- movement slows to 40% and gravity gets floaty.</div>
++            <div class="help-card-head">지형과 물</div>
++            <div class="help-card-body">완만한 언덕이 이어집니다. 물에 들어가면 수중 화면이 나타나며 이동 속도가 40%로 줄고 중력이 가벼워집니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Snow Biome</div>
+-            <div class="help-card-body">Toggle from the main menu for a frozen landscape. Water turns to walkable ice and trees take on a wintry look.</div>
++            <div class="help-card-head">설원 환경</div>
++            <div class="help-card-body">메인 메뉴에서 설원을 선택합니다. 물이 걸을 수 있는 얼음으로 변하고 나무도 겨울 모습이 됩니다.</div>
+           </div>
+         </div>
+       </div>
+ 
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x1F4A5;</span> Rocks &amp; Physics</div>
++        <div class="help-section-title"><span class="help-icon">&#x1F4A5;</span> 돌과 물리</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Throwing</div>
+-            <div class="help-card-body">Select a stone and <b>left-click</b> to throw. Stones bounce off walls and terrain with realistic physics. Slanted roofs are slippery -- stones roll right off.</div>
++            <div class="help-card-head">던지기</div>
++            <div class="help-card-body">돌을 선택하고 왼쪽 클릭하여 던집니다. 돌은 벽과 지형에서 튕기며 경사진 지붕에서 굴러떨어집니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Placement Mode</div>
+-            <div class="help-card-body">Press <b>E</b> with a stone selected to toggle placement mode. A green preview shows where the stone will land. Click to place it gently instead of throwing.</div>
++            <div class="help-card-head">배치 모드</div>
++            <div class="help-card-body">돌을 선택하고 E로 배치 모드를 전환합니다. 초록 미리보기를 보고 클릭하면 던지지 않고 조심스럽게 놓습니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Rock Splitting</div>
+-            <div class="help-card-body">Thrown stones that hit stationary pebbles will knock them loose with momentum transfer. Chain reactions are possible -- experiment with angles.</div>
++            <div class="help-card-head">돌 밀어내기</div>
++            <div class="help-card-body">던진 돌로 바닥의 작은 돌을 맞히면 충격이 전달됩니다. 각도를 바꾸며 연쇄 반응을 시험해보세요.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Breaking Windows</div>
+-            <div class="help-card-body">Throw a stone at a window pane to shatter it. Glass shards scatter on impact. Broken windows let projectiles pass through freely.</div>
++            <div class="help-card-head">유리창 깨기</div>
++            <div class="help-card-body">돌을 유리창에 던지면 창이 깨집니다. 유리 조각이 흩어지고 깨진 창으로 투사체가 통과합니다.</div>
+           </div>
+         </div>
+       </div>
+ 
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x1F4AC;</span> Creatures &amp; NPCs</div>
++        <div class="help-section-title"><span class="help-icon">&#x1F4AC;</span> 생물과 NPC</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Soldiers</div>
+-            <div class="help-card-body">Green-tinted warriors wander the land. Get close to hear their stories -- some wise, some strange.</div>
++            <div class="help-card-head">병사</div>
++            <div class="help-card-body">초록빛 병사들이 주변을 돌아다닙니다. 가까이 다가가 지혜롭거나 엉뚱한 이야기를 들어보세요.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Foxes</div>
+-            <div class="help-card-body">Skittish foxes roam the wilderness. They flee if you get too close -- try sneaking up on them.</div>
++            <div class="help-card-head">여우</div>
++            <div class="help-card-body">겁 많은 여우들이 황야를 돌아다닙니다. 가까이 다가가면 도망갑니다. 조용히 접근해보세요.</div>
+           </div>
+         </div>
+       </div>
+ 
+       <div class="help-section">
+-        <div class="help-section-title"><span class="help-icon">&#x2600;</span> Day &amp; Night</div>
++        <div class="help-section-title"><span class="help-icon">&#x2600;</span> 낮과 밤</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Time Cycle</div>
+-            <div class="help-card-body">Enable from the main menu. The sun arcs across the sky, torches ignite at dusk, and stars emerge at night.</div>
++            <div class="help-card-head">시간 주기</div>
++            <div class="help-card-body">메인 메뉴에서 낮과 밤 주기를 켭니다. 해가 움직이고 해 질 무렵 횃불이 켜지며 밤에는 별이 나타납니다.</div>
+           </div>
+           <div class="help-card">
+-            <div class="help-card-head">Sleeping</div>
+-            <div class="help-card-body">Find a bed inside a building and interact to sleep until morning. Requires the day/night cycle to be enabled.</div>
++            <div class="help-card-head">잠자기</div>
++            <div class="help-card-body">건물 안의 침대와 상호작용하여 아침까지 잘 수 있습니다. 낮과 밤 주기가 켜져 있어야 합니다.</div>
+           </div>
+         </div>
+       </div>
+@@ -275,8 +275,8 @@
+         <div class="help-section-title"><span class="help-icon">&#x1F3AF;</span> HUD</div>
+         <div class="help-grid">
+           <div class="help-card">
+-            <div class="help-card-head">Minimap</div>
+-            <div class="help-card-body">Top-right corner shows your position (yellow dot), buildings (brown), and flowers (cyan).</div>
++            <div class="help-card-head">미니맵</div>
++            <div class="help-card-body">오른쪽 위 미니맵에 내 위치는 노란 점, 건물은 갈색, 꽃은 청록색으로 표시됩니다.</div>
+           </div>
+         </div>
+       </div>
+@@ -286,12 +286,12 @@
+ 
+ <div id="sleep-ui" style="display:none">
+   <div id="sleep-panel">
+-    <h3>Rest Until Dawn</h3>
+-    <div id="sleep-amount-lbl">Sleep for 8 hours</div>
++    <h3>아침까지 쉬기</h3>
++    <div id="sleep-amount-lbl">8시간 잠자기</div>
+     <input type="range" id="sleep-slider" min="1" max="15" value="8" step="1">
+     <div id="sleep-buttons">
+-      <button id="sleep-btn-cancel">Cancel</button>
+-      <button id="sleep-btn-confirm">Sleep</button>
++      <button id="sleep-btn-cancel">취소</button>
++      <button id="sleep-btn-confirm">잠자기</button>
+     </div>
+   </div>
+ </div>
+@@ -305,9 +305,9 @@
+     <button id="touch-help">?</button>
+   </div>
+   <div id="touch-buttons">
+-    <button id="touch-jump">JUMP</button>
+-    <button id="touch-use">USE</button>
+-    <button id="touch-camera">CAM</button>
++    <button id="touch-jump">점프</button>
++    <button id="touch-use">사용</button>
++    <button id="touch-camera">시점</button>
+   </div>
+   <div id="touch-progress" style="display:none">
+     <svg viewBox="0 0 80 80" width="80" height="80">
+diff --git a/src/main.js b/src/main.js
+index 44303b1..eb66a96 100644
+--- a/src/main.js
++++ b/src/main.js
+@@ -122,31 +122,31 @@ function updateInteractHint(camera) {
+     }
+   }
+ 
+-  const pre = isTouchDevice ? 'Hold to ' : '[E] ';
++  const pre = isTouchDevice ? '길게 눌러 ' : '[E] ';
+ 
+   const door = getNearestDoor();
+   if (door) {
+     const pc = getDoorPanelCenter(door);
+     const doorY = door.group.position.y + CFG.WALL_H * 0.5;
+-    const action = door.open ? 'Close' : 'Open';
++    const action = door.open ? '닫기' : '열기';
+     tryCandidate(pc.x, doorY, pc.z, pre + action, '', 'door');
+   }
+ 
+   const soldier = getNearestSoldier();
+   if (soldier) {
+     const pos = soldier.model.position;
+-    tryCandidate(pos.x, pos.y + 1.0, pos.z, pre + 'Talk', '21px', 'soldier');
++    tryCandidate(pos.x, pos.y + 1.0, pos.z, pre + '대화', '21px', 'soldier');
+   }
+ 
+   const flower = getNearestFlower();
+   if (flower) {
+     const ty = getTerrainHeight(flower.wx, flower.wz);
+-    tryCandidate(flower.wx, ty + 0.3, flower.wz, pre + 'Pick', '21px', 'flower');
++    tryCandidate(flower.wx, ty + 0.3, flower.wz, pre + '꽃 따기', '21px', 'flower');
+   }
+ 
+   const rock = getNearestPickableRock();
+   if (rock) {
+-    tryCandidate(rock.x, rock.top + 0.3, rock.z, pre + 'Pick up', '21px', 'rock');
++    tryCandidate(rock.x, rock.top + 0.3, rock.z, pre + '줍기', '21px', 'rock');
+   }
+ 
+   const flyRock = getNearestInFlightRock();
+@@ -164,9 +164,9 @@ function updateInteractHint(camera) {
+   if (bed) {
+     const bedHintY = bed.y + 0.4;
+     if (isCycleEnabled()) {
+-      tryCandidate(bed.x, bedHintY, bed.z, pre + 'Sleep', '21px', 'bed');
++      tryCandidate(bed.x, bedHintY, bed.z, pre + '잠자기', '21px', 'bed');
+     } else {
+-      tryCandidate(bed.x, bedHintY, bed.z, 'Enable Day/Night Cycle to Sleep', '14px', 'bed');
++      tryCandidate(bed.x, bedHintY, bed.z, '잠자려면 낮과 밤 주기를 켜세요', '14px', 'bed');
+     }
+   }
+ 
+@@ -274,7 +274,7 @@ function gameLoop(time) {
+     let speed = keys['KeyQ'] && !alt ? 3 : 1;
+ 
+     // Pause freezes the whole simulation — day/night clock, physics, NPCs.
+-    // isWorldFrozen covers Tab-pause AND the ESC "Click to resume" overlay
++    // isWorldFrozen covers Tab-pause AND the ESC "클릭하여 계속" overlay
+     // (originally the game kept running there by design — read as broken).
+     // Sleep fast-forward wins: its menu releases the pointer while skipping.
+     if (activeSleepTime < targetSleepTime) speed = 30;
+@@ -820,7 +820,7 @@ function setupPlayButton() {
+     if (panel) panel.style.display = 'none';
+     if (keys) keys.style.display = 'none';
+     if (loading) loading.style.display = 'flex';
+-    if (loadText) loadText.textContent = 'Building world...';
++    if (loadText) loadText.textContent = '월드 만드는 중...';
+     if (fill) {
+       fill.style.transition = 'none';
+       fill.style.transform = 'scaleX(0)';
+@@ -834,7 +834,7 @@ function setupPlayButton() {
+       // systems and physics bodies would all stack on retry) — reload for a
+       // clean engine state instead of restoring the menu. `building` stays
+       // true so a second click during the delay is ignored.
+-      if (loadText) loadText.textContent = 'World build failed — reloading...';
++      if (loadText) loadText.textContent = '월드 생성 실패 - 다시 불러오는 중...';
+       setTimeout(() => location.reload(), 1500);
+       return;
+     }
+diff --git a/src/systems/controls.js b/src/systems/controls.js
+index b7f5a4a..a6469bd 100644
+--- a/src/systems/controls.js
++++ b/src/systems/controls.js
+@@ -38,7 +38,7 @@ export function setSimPause(p) { simPause = p; }
+ export function isSimPaused() { return simPause; }
+ /**
+  * True whenever the world should freeze: Tab-pause, or ANY desktop state
+- * where the pointer is free ("Click to resume" ESC overlay included — the
++ * where the pointer is free ("클릭하여 계속" ESC overlay included — the
+  * original spec kept the game running there, which just reads as broken
+  * pause). Mobile has no pointer lock and uses its own active flag.
+  */
+@@ -92,7 +92,7 @@ function showPauseUI(blocker, hint) {
+   if (keysEl) keysEl.style.display = 'none';
+   if (pause) pause.style.display = 'flex';
+   const pt = document.getElementById('pause-text');
+-  if (pt) pt.textContent = 'Paused';
++  if (pt) pt.textContent = '일시 정지';
+   const ph = document.getElementById('pause-hint');
+   if (ph) ph.textContent = hint;
+ }
+@@ -112,7 +112,7 @@ function enterPausedReleased(blocker) {
+   hideSimCursor();
+   blocker.style.cursor = '';
+   document.body.style.cursor = '';
+-  showPauseUI(blocker, 'Click or press any key to resume');
++  showPauseUI(blocker, '클릭하거나 키를 눌러 계속하세요');
+ }
+ 
+ function resumeFromPause(blocker) {
+@@ -359,7 +359,7 @@ export function initControls() {
+           const pt = document.getElementById('pause-text');
+           if (pt) pt.textContent = '';
+           const ph = document.getElementById('pause-hint');
+-          if (ph) ph.textContent = 'Click to resume';
++          if (ph) ph.textContent = '클릭하여 계속';
+         }
+       } else {
+         blocker.style.display = 'flex';
+diff --git a/src/systems/daynight.js b/src/systems/daynight.js
+index ca60cd5..1af82fa 100644
+--- a/src/systems/daynight.js
++++ b/src/systems/daynight.js
+@@ -213,5 +213,5 @@ export function updateDayNight(dt, scene) {
+   const hours = Math.floor(dayTime * 24);
+   const mins = Math.floor((dayTime * 24 - hours) * 60);
+   const el = document.getElementById('time-display');
+-  if (el) el.textContent = `${padTime(hours)}:${padTime(mins)} ${sunH > 0 ? 'DAY' : 'NIGHT'}`;
++  if (el) el.textContent = `${padTime(hours)}:${padTime(mins)} ${sunH > 0 ? '낮' : '밤'}`;
+ }
+diff --git a/src/systems/hud.js b/src/systems/hud.js
+index 891f0c4..c5cdc82 100644
+--- a/src/systems/hud.js
++++ b/src/systems/hud.js
+@@ -67,7 +67,7 @@ export function updateInventory() {
+ export function updateCameraMode() {
+   const state = getPlayerState();
+   const el = document.getElementById('camera-mode');
+-  if (el) el.textContent = state.firstPerson ? '1ST PERSON' : '3RD PERSON';
++  if (el) el.textContent = state.firstPerson ? '1인칭' : '3인칭';
+ }
+ 
+ let _mapBase = null;   // offscreen canvas: grid + water + buildings (static)
+diff --git a/src/systems/npcAI.js b/src/systems/npcAI.js
+index 8600ec6..80f0036 100644
+--- a/src/systems/npcAI.js
++++ b/src/systems/npcAI.js
+@@ -14,107 +14,101 @@ const NPC_RADIUS = 0.5;
+ const TALK_DIST = 3.5;
+ 
+ const SOLDIER_LINES = [
+-  // Original 20
+-  "Quiet day... for now.",
+-  "Stay alert out there.",
+-  "These walls won't hold forever.",
+-  "I've seen things in the fog...",
+-  "Watch your step near the water.",
+-  "Another day, another patrol.",
+-  "You look like you've been through worse.",
+-  "The foxes have been acting strange lately.",
+-  "Keep your weapon close.",
+-  "I once saw a shadow move on its own.",
+-  "Don't wander too far at night.",
+-  "The stones whisper if you listen.",
+-  "Someone left the door open again.",
+-  "I could use a warm fire right about now.",
+-  "Ever wonder what's beyond the fog?",
+-  "My feet are killing me.",
+-  "I swear that rock moved.",
+-  "You remind me of someone... never mind.",
+-  "If I had a coin for every patrol...",
+-  "The dark strands are spreading.",
+-  // Atmospheric / lore
+-  "The ground feels wrong here.",
+-  "There's something beneath these stones.",
+-  "I heard singing last night. No one was there.",
+-  "The old watchtower collapsed years ago.",
+-  "They say this place was a kingdom once.",
+-  "The fog rolls in thicker every evening.",
+-  "I found strange markings on the walls.",
+-  "The crows have stopped coming.",
+-  "Something stirs when the wind dies down.",
+-  "The river used to flow clear. Not anymore.",
+-  "I don't trust the silence.",
+-  "The trees are closer than yesterday.",
+-  "No stars last night. Not a single one.",
+-  "There's a hum in the air. You hear it?",
+-  "The old well dried up overnight.",
+-  "I keep finding footprints that aren't mine.",
+-  "The moss grows too fast on these walls.",
+-  "A cold spot near the north wall. Always.",
+-  "The shadows don't match the light sometimes.",
+-  "This place has a memory.",
+-  // Guard duty / military
+-  "Shift change isn't for another hour.",
+-  "The captain hasn't returned yet.",
+-  "We lost contact with the east outpost.",
+-  "Supplies are running low.",
+-  "I've been on watch since dawn.",
+-  "The perimeter looks clear. For now.",
+-  "We should reinforce the south wall.",
+-  "I haven't slept properly in days.",
+-  "Three patrols today. My legs are done.",
+-  "The new recruits don't last long out here.",
+-  "I miss the old garrison. Proper beds.",
+-  "Orders are orders, I suppose.",
+-  "Someone needs to fix that gate.",
+-  "The armory could use restocking.",
+-  "I've counted every stone in this wall.",
+-  // Casual / humorous
+-  "Got any food? I'm starving.",
+-  "I used to be an adventurer, you know.",
+-  "Do you think the foxes judge us?",
+-  "I named that rock over there. Gerald.",
+-  "If I stand still long enough, do I become a statue?",
+-  "My boots have more holes than leather.",
+-  "I tried talking to a fox once. It didn't go well.",
+-  "Whoever built these stairs was not thinking straight.",
+-  "I bet the horses have it easy.",
+-  "Want to trade shifts? Didn't think so.",
+-  "At least the view is... foggy.",
+-  "I've been walking in circles. Literally.",
+-  "The food here tastes like the walls look.",
+-  "I had a dream about cheese last night.",
+-  "Is it always this cold, or is it just me?",
+-  "My sword is duller than my conversation.",
+-  "I've forgotten what a warm bed feels like.",
+-  "They don't pay me enough for this.",
+-  "I think a fox stole my lunch.",
+-  "I'd kill for a mug of ale right now.",
+-  // Philosophical / melancholy
+-  "Do you ever wonder why we're here?",
+-  "Some doors are better left closed.",
+-  "We all end up as stories eventually.",
+-  "The world was different before the strands.",
+-  "I used to know what courage meant.",
+-  "Hope is a strange thing to carry.",
+-  "Every path leads somewhere. Even the wrong ones.",
+-  "I've forgotten more than I remember.",
+-  "The past is just fog with memories in it.",
+-  "We build walls, but nothing stays out forever.",
+-  // Warnings / advice
+-  "Don't drink the water downstream.",
+-  "Stay close to the torches after dark.",
+-  "If you see something move, don't follow it.",
+-  "The rooftops aren't as sturdy as they look.",
+-  "Watch the treeline. Always watch the treeline.",
+-  "Trust your instincts. They'll keep you alive.",
+-  "Never turn your back on an open door.",
+-  "The high ground is your friend.",
+-  "Keep moving. Standing still invites trouble.",
+-  "If the fog thickens, find shelter. Fast.",
++  "조용한 하루군... 아직은.",
++  "밖에서는 경계를 늦추지 마.",
++  "이 벽이 영원히 버티지는 못해.",
++  "안개 속에서 뭔가를 봤어...",
++  "물가에서는 발밑을 조심해.",
++  "또 하루, 또 순찰이군.",
++  "더 험한 일을 겪어본 얼굴이군.",
++  "요즘 여우들이 이상하게 행동해.",
++  "무기는 가까이 두는 게 좋아.",
++  "그림자가 혼자 움직이는 걸 본 적 있어.",
++  "밤에는 너무 멀리 가지 마.",
++  "귀 기울이면 돌이 속삭여.",
++  "누가 또 문을 열어뒀군.",
++  "지금은 따뜻한 불이 그립네.",
++  "안개 너머에 뭐가 있을지 궁금하지 않아?",
++  "발이 너무 아프군.",
++  "분명 저 돌이 움직였어.",
++  "누군가가 떠오르네... 아니, 됐어.",
++  "순찰할 때마다 동전을 받았다면...",
++  "어둠의 실이 퍼지고 있어.",
++  "여기 땅은 느낌이 이상해.",
++  "이 돌 밑에 무언가가 있어.",
++  "어젯밤 노래를 들었어. 아무도 없었는데.",
++  "옛 감시탑은 오래전에 무너졌지.",
++  "여기가 한때 왕국이었다더군.",
++  "저녁마다 안개가 더 짙어져.",
++  "벽에서 이상한 표시를 발견했어.",
++  "까마귀가 더는 오지 않아.",
++  "바람이 잦아들면 무언가 꿈틀거려.",
++  "강물은 맑았어. 이제는 아니지만.",
++  "이 고요함을 믿지 않아.",
++  "나무가 어제보다 가까워졌어.",
++  "어젯밤 별이 하나도 없었어.",
++  "공기에서 웅웅거리는 소리가 나. 들려?",
++  "옛 우물이 하룻밤 새 말랐어.",
++  "내 것이 아닌 발자국이 자꾸 보여.",
++  "벽의 이끼가 너무 빨리 자라.",
++  "북쪽 벽 근처는 언제나 차가워.",
++  "가끔 그림자와 빛이 맞지 않아.",
++  "이곳은 기억을 갖고 있어.",
++  "교대까지 한 시간이나 남았군.",
++  "대장이 아직 돌아오지 않았어.",
++  "동쪽 전초기지와 연락이 끊겼어.",
++  "보급품이 떨어져 가.",
++  "새벽부터 경계 근무 중이야.",
++  "주변은 이상 없어. 지금은.",
++  "남쪽 벽을 보강해야 해.",
++  "며칠째 제대로 못 잤어.",
++  "오늘 순찰만 세 번이야. 다리가 버티질 못해.",
++  "여기 신병들은 오래 버티지 못해.",
++  "옛 주둔지가 그립네. 침대가 제대로 있었지.",
++  "명령은 명령이니까.",
++  "누가 저 문을 고쳐야 해.",
++  "무기고를 다시 채워야겠어.",
++  "이 벽의 돌을 전부 세어봤어.",
++  "먹을 것 있나? 배고파 죽겠어.",
++  "나도 한때는 모험가였지.",
++  "여우들이 우리를 평가할까?",
++  "저 돌에 이름을 지어줬어. 제럴드야.",
++  "오래 가만히 있으면 조각상이 될까?",
++  "내 장화는 가죽보다 구멍이 많아.",
++  "여우에게 말을 걸어봤는데 잘 안 됐어.",
++  "이 계단 만든 사람은 제정신이 아니었어.",
++  "말들은 편하게 지내겠지.",
++  "근무 바꿀래? 그럴 줄 알았어.",
++  "적어도 풍경은... 안개가 많군.",
++  "말 그대로 제자리에서 빙빙 돌고 있어.",
++  "여기 음식 맛은 벽 생김새와 닮았어.",
++  "어젯밤 치즈 꿈을 꿨어.",
++  "원래 이렇게 추워? 나만 그런가?",
++  "내 칼이 내 대화보다 더 무뎌.",
++  "따뜻한 침대가 어떤 느낌인지 잊었어.",
++  "이 일을 하기엔 급여가 너무 적어.",
++  "여우가 내 점심을 훔친 것 같아.",
++  "지금 맥주 한 잔이면 정말 좋겠네.",
++  "우리가 왜 여기 있는지 생각해본 적 있어?",
++  "어떤 문은 닫아두는 게 나아.",
++  "우린 결국 이야기로 남겠지.",
++  "어둠의 실이 오기 전 세상은 달랐어.",
++  "용기가 뭔지 알던 때가 있었지.",
++  "희망은 참 이상한 짐이야.",
++  "잘못 든 길도 어딘가로 이어지지.",
++  "기억하는 것보다 잊은 것이 더 많아.",
++  "과거는 기억이 담긴 안개일 뿐이야.",
++  "벽을 세워도 영원히 막을 수는 없어.",
++  "하류의 물은 마시지 마.",
++  "어두워지면 횃불 근처에 있어.",
++  "무언가 움직이면 따라가지 마.",
++  "지붕은 보기보다 튼튼하지 않아.",
++  "숲 가장자리를 봐. 언제나.",
++  "직감을 믿어. 목숨을 지켜줄 거야.",
++  "열린 문에 등을 보이지 마.",
++  "높은 곳은 네 편이야.",
++  "계속 움직여. 가만히 있으면 위험이 찾아와.",
++  "안개가 짙어지면 빨리 피할 곳을 찾아."
+ ];
+ 
+ let speechTimer = 0;
+diff --git a/src/systems/sleep.js b/src/systems/sleep.js
+index a0a8fb4..d837d26 100644
+--- a/src/systems/sleep.js
++++ b/src/systems/sleep.js
+@@ -62,8 +62,8 @@ function updateLabel() {
+         const curr = getDayTime();
+         const wake = (curr + (hs / 24)) % 1;
+ 
+-        header.textContent = `Current Time: ${formatTime(curr)}`;
+-        lbl.textContent = `Sleep for ${hs} hour${hs > 1 ? 's' : ''} (Awake at ${formatTime(wake)})`;
++        header.textContent = `현재 시간: ${formatTime(curr)}`;
++        lbl.textContent = `${hs}시간 잠자기 (${formatTime(wake)}에 기상)`;
+     }
+ }
+ 
+diff --git a/src/systems/touch.js b/src/systems/touch.js
+index 92a78a3..14ad8e7 100644
+--- a/src/systems/touch.js
++++ b/src/systems/touch.js
+@@ -156,7 +156,7 @@ export function initTouch() {
+           lpOriginY = t.clientY;
+           lpStart = performance.now();
+           lpActive = true;
+-          // Extract action word from hint text (strip "Hold to " prefix)
++          // Extract action word from hint text (strip "길게 눌러 " prefix)
+           const raw = hintEl.textContent || '';
+           const label = raw.replace(/^Hold to /, '');
+           showProgress(label);
+@@ -258,8 +258,8 @@ export function initTouch() {
+     // Mobile-friendly text
+     const pt = document.getElementById('pause-text');
+     const ph = document.getElementById('pause-hint');
+-    if (pt) pt.textContent = 'Tap to Resume';
+-    if (ph) ph.textContent = 'Tap anywhere to resume';
++    if (pt) pt.textContent = '터치하여 계속';
++    if (ph) ph.textContent = '아무 곳이나 터치하여 계속';
+   });
+ 
+   // Help button — toggle help overlay
+diff --git a/src/world/doors.js b/src/world/doors.js
+index 98cf321..0d56c6f 100644
+--- a/src/world/doors.js
++++ b/src/world/doors.js
+@@ -537,7 +537,7 @@ export function updateDoorHint() {
+     return;
+   }
+ 
+-  el.textContent = door.open ? '[E] Close' : '[E] Open';
++  el.textContent = door.open ? '[E] 닫기' : '[E] 열기';
+   el.style.fontSize = '';
+   el.style.left = projected.x + 'px';
+   el.style.top = projected.y + 'px';
+diff --git a/src/world/vegetation.js b/src/world/vegetation.js
+index d89c443..69df13a 100644
+--- a/src/world/vegetation.js
++++ b/src/world/vegetation.js
+@@ -838,7 +838,7 @@ export function updateRockHint() {
+     return;
+   }
+ 
+-  el.textContent = '[E] Pick up';
++  el.textContent = '[E] 줍기';
+   el.style.fontSize = '21px';
+   el.style.left = projected.x + 'px';
+   el.style.top = projected.y + 'px';
