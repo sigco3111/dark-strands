@@ -38,7 +38,7 @@ export function setSimPause(p) { simPause = p; }
 export function isSimPaused() { return simPause; }
 /**
  * True whenever the world should freeze: Tab-pause, or ANY desktop state
- * where the pointer is free ("Click to resume" ESC overlay included — the
+ * where the pointer is free ("클릭하여 계속" ESC overlay included — the
  * original spec kept the game running there, which just reads as broken
  * pause). Mobile has no pointer lock and uses its own active flag.
  */
@@ -92,7 +92,7 @@ function showPauseUI(blocker, hint) {
   if (keysEl) keysEl.style.display = 'none';
   if (pause) pause.style.display = 'flex';
   const pt = document.getElementById('pause-text');
-  if (pt) pt.textContent = 'Paused';
+  if (pt) pt.textContent = '일시 정지';
   const ph = document.getElementById('pause-hint');
   if (ph) ph.textContent = hint;
 }
@@ -112,7 +112,7 @@ function enterPausedReleased(blocker) {
   hideSimCursor();
   blocker.style.cursor = '';
   document.body.style.cursor = '';
-  showPauseUI(blocker, 'Click or press any key to resume');
+  showPauseUI(blocker, '클릭하거나 키를 눌러 계속하세요');
 }
 
 function resumeFromPause(blocker) {
@@ -359,7 +359,7 @@ export function initControls() {
           const pt = document.getElementById('pause-text');
           if (pt) pt.textContent = '';
           const ph = document.getElementById('pause-hint');
-          if (ph) ph.textContent = 'Click to resume';
+          if (ph) ph.textContent = '클릭하여 계속';
         }
       } else {
         blocker.style.display = 'flex';
