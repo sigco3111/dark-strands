@@ -122,31 +122,31 @@ function updateInteractHint(camera) {
     }
   }
 
-  const pre = isTouchDevice ? 'Hold to ' : '[E] ';
+  const pre = isTouchDevice ? '길게 눌러 ' : '[E] ';
 
   const door = getNearestDoor();
   if (door) {
     const pc = getDoorPanelCenter(door);
     const doorY = door.group.position.y + CFG.WALL_H * 0.5;
-    const action = door.open ? 'Close' : 'Open';
+    const action = door.open ? '닫기' : '열기';
     tryCandidate(pc.x, doorY, pc.z, pre + action, '', 'door');
   }
 
   const soldier = getNearestSoldier();
   if (soldier) {
     const pos = soldier.model.position;
-    tryCandidate(pos.x, pos.y + 1.0, pos.z, pre + 'Talk', '21px', 'soldier');
+    tryCandidate(pos.x, pos.y + 1.0, pos.z, pre + '대화', '21px', 'soldier');
   }
 
   const flower = getNearestFlower();
   if (flower) {
     const ty = getTerrainHeight(flower.wx, flower.wz);
-    tryCandidate(flower.wx, ty + 0.3, flower.wz, pre + 'Pick', '21px', 'flower');
+    tryCandidate(flower.wx, ty + 0.3, flower.wz, pre + '꽃 따기', '21px', 'flower');
   }
 
   const rock = getNearestPickableRock();
   if (rock) {
-    tryCandidate(rock.x, rock.top + 0.3, rock.z, pre + 'Pick up', '21px', 'rock');
+    tryCandidate(rock.x, rock.top + 0.3, rock.z, pre + '줍기', '21px', 'rock');
   }
 
   const flyRock = getNearestInFlightRock();
@@ -164,9 +164,9 @@ function updateInteractHint(camera) {
   if (bed) {
     const bedHintY = bed.y + 0.4;
     if (isCycleEnabled()) {
-      tryCandidate(bed.x, bedHintY, bed.z, pre + 'Sleep', '21px', 'bed');
+      tryCandidate(bed.x, bedHintY, bed.z, pre + '잠자기', '21px', 'bed');
     } else {
-      tryCandidate(bed.x, bedHintY, bed.z, 'Enable Day/Night Cycle to Sleep', '14px', 'bed');
+      tryCandidate(bed.x, bedHintY, bed.z, '잠자려면 낮과 밤 주기를 켜세요', '14px', 'bed');
     }
   }
 
@@ -274,7 +274,7 @@ function gameLoop(time) {
     let speed = keys['KeyQ'] && !alt ? 3 : 1;
 
     // Pause freezes the whole simulation — day/night clock, physics, NPCs.
-    // isWorldFrozen covers Tab-pause AND the ESC "Click to resume" overlay
+    // isWorldFrozen covers Tab-pause AND the ESC "클릭하여 계속" overlay
     // (originally the game kept running there by design — read as broken).
     // Sleep fast-forward wins: its menu releases the pointer while skipping.
     if (activeSleepTime < targetSleepTime) speed = 30;
@@ -820,7 +820,7 @@ function setupPlayButton() {
     if (panel) panel.style.display = 'none';
     if (keys) keys.style.display = 'none';
     if (loading) loading.style.display = 'flex';
-    if (loadText) loadText.textContent = 'Building world...';
+    if (loadText) loadText.textContent = '월드 만드는 중...';
     if (fill) {
       fill.style.transition = 'none';
       fill.style.transform = 'scaleX(0)';
@@ -834,7 +834,7 @@ function setupPlayButton() {
       // systems and physics bodies would all stack on retry) — reload for a
       // clean engine state instead of restoring the menu. `building` stays
       // true so a second click during the delay is ignored.
-      if (loadText) loadText.textContent = 'World build failed — reloading...';
+      if (loadText) loadText.textContent = '월드 생성 실패 - 다시 불러오는 중...';
       setTimeout(() => location.reload(), 1500);
       return;
     }
